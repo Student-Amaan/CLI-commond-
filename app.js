@@ -1,24 +1,33 @@
-const inputTask = document.getElementById('input-field')
+document.addEventListener('DOMContentLoaded',()=>{
+    const inputTask = document.getElementById("input-field");
 
-const addTask = document.getElementById('add-btn')
- 
-const ulList = document.getElementById('ul-list')
+    const addTask = document.getElementById("add-btn");
 
-const tasks = []
+    const ulList = document.getElementById("ul-list");
 
-addTask.addEventListener('click', () =>{
-    const taskText = inputTask.value.trim()
+    const tasks = JSON.parse(localStorage.stringify("tasks", tasks)) || [];
 
-    const newTask = {
+    tasks.forEach((task) => randerTask(task));
+
+    addTask.addEventListener("click", () => {
+      const taskText = inputTask.value.trim();
+
+      const newTask = {
         id: Date.now(),
         text: taskText,
         completed: false,
+      };
+
+      tasks.push(newTask);
+      saveTask();
+    });
+
+    function randerTask(task) {
+      const li = document.createElement('li')
+      li.setAttribute()
     }
 
-    tasks.push(newTask)
-    saveTask()
+    function saveTask() {
+      localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
 })
-
-function saveTask(){
-    localStorage.setItem('tasks', JSON.stringify(tasks))
-}
