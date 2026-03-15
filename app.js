@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const ulList = document.getElementById("ul-list");
 
-  const tasks = JSON.parse(localStorage.stringify("tasks", tasks)) || [];
+  const tasks = JSON.parse(localStorage.setItem("tasks", tasks)) || [];
 
   tasks.forEach((task) => randerTask(task));
 
   addTask.addEventListener("click", () => {
     const taskText = inputTask.value.trim();
-
+    if(taskText == "") return;
     const newTask = {
       id: Date.now(),
       text: taskText,
@@ -21,24 +21,30 @@ document.addEventListener("DOMContentLoaded", () => {
     tasks.push(newTask);
     saveTask();
     randerTask(newTask);
+    inputTask.value = "";
+    console.log(tasks);
   });
 
   function randerTask(task) {
     const li = document.createElement("li");
     li.setAttribute("data_id", task.id);
+    if (task.completed) task.classList.add("completed");
     li.innerHTML = `<span>${task.text}</span>
       <button>deleted</button>
       `;
     li.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (e.target.tagName === "BUTTON") task.classList.add("completed");
+      if (e.target.tagName === "BUTTON") return;
       task.completed = !task.completed;
+      li.classList.toggle("completed");
       saveTask();
     });
 
-    document.querySelector('button').addEventListener('click', ()=>{
-        
-    })
+    document.querySelector("button").addEventListener("click", (e) => {
+      e.stopPropagation();
+      tasks = tasks.filter((t) => t.id == task.id);
+      li.remove();
+      saveTask();
+    });
     ulList.appendChild(li);
   }
 
