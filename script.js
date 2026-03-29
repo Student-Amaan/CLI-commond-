@@ -26,3 +26,13 @@ function slowSpeed() {
 }
 
 console.log(slowSpeed())
+ 
+let array = []
+
+function printHund(time = 1000){
+  for (let i = 0; i <= time; i++) {
+    console.log( ` You are aman from south waziristan wana Ghawa Khawa: = ${i} `)
+  }
+}
+
+console.log(printHund())
